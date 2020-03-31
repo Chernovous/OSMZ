@@ -89,7 +89,7 @@ public class ThreadHandler implements Runnable {
                 while(true){
                     out.write("--OSMZ_BOUNDARY\n");
                     out.write("Content-Length:" + this.activity.getPhotoBytes().length*8 + "\n");
-                    out.write("Content-Type: image/jpg\n");
+                    out.write("Content-Type: image/jpeg\n");
                     out.write("\n");
                     out.flush();
 
