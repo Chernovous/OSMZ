@@ -101,7 +101,29 @@ public class ThreadHandler implements Runnable {
                 }
 
             }
+            if(urlPath.contains("/command/")) {
+                String replaced = urlPath.replace("/command/","");
+                Log.d("replaced", replaced);
+                String[] result = replaced.split("\\?");
+                String command = result[0];
+                Log.d("command", command);
+                String arg = result[1];
+                Log.d("arg", arg);
 
+                ProcessBuilder pb = new ProcessBuilder(command, arg);
+                Process p = pb.start();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+
+                String generatedContent = "HTTP/1.0 200 OK\n" +
+                        "Date: " + currentTime.toString() + "\n" +
+                        "Content-Type:" + "text/html" + "\n" +
+                        "\n";
+                out.write(generatedContent);
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    out.write(line);
+                }
+            }
             if (file.exists() && !file.isDirectory()) {
                 Log.d("File Exists!", file.getAbsolutePath());
                 FileInputStream fileInputStream = new FileInputStream(file);
